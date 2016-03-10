@@ -13,6 +13,8 @@
 #import "LeftViewController.h"
 #import "RightViewController.h"
 
+#import "HomeViewController.h"
+
 @interface AppDelegate ()
 
 @end
@@ -25,12 +27,16 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
-    //设置根视图
-    DrawerViewController * drawer = [[DrawerViewController alloc] initWithRootViewController:[[HomeTabBarViewController alloc]init] LeftViewController:[[LeftViewController alloc] init] RightViewController:[[RightViewController alloc]init]];
-    drawer.leftDrawerWidth = 200;
-    drawer.scale = 0.8;
-    [drawer setBackgroundImage:[UIImage imageNamed:@"1-1"]];
+//    //设置根视图
+//    DrawerViewController * drawer = [[DrawerViewController alloc] initWithRootViewController:[[HomeTabBarViewController alloc]init] LeftViewController:[[LeftViewController alloc] init] RightViewController:[[RightViewController alloc]init]];
+//    [drawer setBackgroundImage:[UIImage imageNamed:@"1-1"]];
+//    self.window.rootViewController = drawer;
+    
+    UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:[[HomeViewController alloc] init]];
+    DrawerViewController * drawer = [[DrawerViewController alloc] initWithRootViewController: nav];
     self.window.rootViewController = drawer;
+    
+    
     return YES;
 }
 

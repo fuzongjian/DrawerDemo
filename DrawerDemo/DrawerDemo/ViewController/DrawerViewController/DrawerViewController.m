@@ -144,6 +144,11 @@ typedef enum{
     }];
 }
 #pragma mark ---
+#pragma mark ---获取抽屉打开的状态
+-(BOOL)drawerIsOpenState{
+    return self.isOpen;
+}
+#pragma mark ---
 #pragma mark ---设置背景
 //设置背景
 -(void)setBackgroundImage:(UIImage *)image{

@@ -25,27 +25,40 @@
 @property(nonatomic,assign)BOOL isOpen;
 //缩放比例,不设置的话默认是不缩放（0-1）
 @property(nonatomic,assign)float scale;
-/****************************************构造方法********************************************/
+
+
+/****************************************  初始化视图的方法  ********************************************/
 //初始化left、right、middle的视图控制器
 -(instancetype)initWithRootViewController:(UIViewController *)rootViewController LeftViewController:(UIViewController *)leftViewController RightViewController:(UIViewController *)rightViewController;
 //初始化middle的视图控制器
 -(instancetype)initWithRootViewController:(UIViewController *)rootViewController;
+/*****************************************************************************************************/
+
+
+/************************    下面四个方法可能需要在拥有--抽屉--的控制器实现     ***************************/
 //打开左侧抽屉
 -(void)openDrawerWithLeft;
 //打开右侧抽屉
 -(void)openDrawerWithRight;
 //关闭抽屉
 -(void)closeDrawerWithLeftAndRight;
+//获取抽屉打开的状态
+-(BOOL)drawerIsOpenState;
+/***********************************************************************************************/
+
+
 //设置背景
 -(void)setBackgroundImage:(UIImage *)image;
 @end
 /*******************************************************************************************/
-/****************************************抽屉协议********************************************/
+/****************************************抽屉协议（实现该协议便能拥有抽屉）********************************************/
 //抽屉自控制器的协议 要在自控制器实现synthesize
 @protocol DrawerChildViewController <NSObject>
 @required
 @property(nonatomic,weak) DrawerViewController * drawer;
 @end
+
+
 @protocol DrawerViewDelegate <NSObject>
 @property(nonatomic,assign)id <DrawerViewDelegate> delegate;
 @optional

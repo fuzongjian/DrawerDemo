@@ -52,7 +52,9 @@
 -(void)openRightDrawer{
     [self.drawer openDrawerWithRight];
 }
-
+-(BOOL)drawerIsOpen{
+    return self.drawer.isOpen;
+}
 
 
 - (void)didReceiveMemoryWarning {

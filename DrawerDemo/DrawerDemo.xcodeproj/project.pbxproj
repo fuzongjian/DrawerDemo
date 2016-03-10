@@ -20,6 +20,7 @@
 		3AEE6E751C91452A005C25E5 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE6E741C91452A005C25E5 /* FirstViewController.m */; };
 		3AEE6E781C91453A005C25E5 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE6E771C91453A005C25E5 /* SecondViewController.m */; };
 		3AEE6E7B1C91454E005C25E5 /* ThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE6E7A1C91454E005C25E5 /* ThirdViewController.m */; };
+		3AEE6E7F1C91A265005C25E5 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE6E7E1C91A265005C25E5 /* HomeViewController.m */; };
 		3AF1196B1C8FA664009DE67F /* HomeTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF1196A1C8FA664009DE67F /* HomeTabBarViewController.m */; };
 		3AF1196E1C8FA67C009DE67F /* LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF1196D1C8FA67C009DE67F /* LeftViewController.m */; };
 		3AF119711C8FA690009DE67F /* RightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF119701C8FA690009DE67F /* RightViewController.m */; };
@@ -70,6 +71,8 @@
 		3AEE6E771C91453A005C25E5 /* SecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 		3AEE6E791C91454E005C25E5 /* ThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdViewController.h; sourceTree = "<group>"; };
 		3AEE6E7A1C91454E005C25E5 /* ThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdViewController.m; sourceTree = "<group>"; };
+		3AEE6E7D1C91A265005C25E5 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		3AEE6E7E1C91A265005C25E5 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		3AF119691C8FA664009DE67F /* HomeTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeTabBarViewController.h; sourceTree = "<group>"; };
 		3AF1196A1C8FA664009DE67F /* HomeTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeTabBarViewController.m; sourceTree = "<group>"; };
 		3AF1196C1C8FA67C009DE67F /* LeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftViewController.h; sourceTree = "<group>"; };
@@ -175,6 +178,7 @@
 				3AF119731C8FA6D9009DE67F /* DrawerViewController */,
 				3A4E81371C8E716600CDE41D /* SuperViewController */,
 				3A4E81341C8E716600CDE41D /* HomeTabBarController */,
+				3AEE6E7C1C91A241005C25E5 /* HomeViewController */,
 				3A4E81351C8E716600CDE41D /* LeftViewController */,
 				3A4E81361C8E716600CDE41D /* RightViewController */,
 			);
@@ -230,6 +234,15 @@
 				3AEE6E7A1C91454E005C25E5 /* ThirdViewController.m */,
 			);
 			path = MiddleViewController;
+			sourceTree = "<group>";
+		};
+		3AEE6E7C1C91A241005C25E5 /* HomeViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3AEE6E7D1C91A265005C25E5 /* HomeViewController.h */,
+				3AEE6E7E1C91A265005C25E5 /* HomeViewController.m */,
+			);
+			path = HomeViewController;
 			sourceTree = "<group>";
 		};
 		3AF119731C8FA6D9009DE67F /* DrawerViewController */ = {
@@ -383,6 +396,7 @@
 				3AEE6E781C91453A005C25E5 /* SecondViewController.m in Sources */,
 				3A4E81021C8E70C400CDE41D /* main.m in Sources */,
 				3AF1196B1C8FA664009DE67F /* HomeTabBarViewController.m in Sources */,
+				3AEE6E7F1C91A265005C25E5 /* HomeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,14 +1,14 @@
 //
-//  HomeTabBarViewController.h
+//  HomeViewController.h
 //  DrawerDemo
 //
-//  Created by fdkj0002 on 16/3/9.
+//  Created by fdkj0002 on 16/3/10.
 //  Copyright © 2016年 FZJ.com. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "SuperViewController.h"
 #import "DrawerViewController.h"
-@interface HomeTabBarViewController : UITabBarController<DrawerChildViewController>
+@interface HomeViewController : SuperViewController<DrawerChildViewController>
 
 -(void)openLeftDrawer;
 -(void)openRightDrawer;
