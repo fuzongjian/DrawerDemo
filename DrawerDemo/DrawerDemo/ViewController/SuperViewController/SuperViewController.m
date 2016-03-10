@@ -16,12 +16,52 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self configSuperViewControllerUI];
 }
--(void)setCustomTitle:(NSString *)title{
+-(void)configSuperViewControllerUI{
+    UIButton * leftIcon = [UIButton buttonWithType:UIButtonTypeCustom];
+    leftIcon.frame = CGRectMake(0, 0, 45, 45);
+    [leftIcon setBackgroundImage:[UIImage imageNamed:@"medical5c"] forState:UIControlStateNormal];
+    [leftIcon addTarget:self action:@selector(leftIconBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftIcon];
+    
+    UIButton * rightIcon = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightIcon.frame = CGRectMake(0, 0, 45, 45);
+    [rightIcon setBackgroundImage:[UIImage imageNamed:@"medical4c"] forState:UIControlStateNormal];
+    [rightIcon addTarget:self action:@selector(rightIconBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightIcon];
     
 }
--(void)setCustomTitleFont:(CGFloat)sizeFont{
+#pragma mark ---
+#pragma mark --- 消除警告
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+-(void)leftIconBtnClicked{
+    if (self.navigationController && self.navigationController.tabBarController) {
+        if ([self.navigationController.tabBarController respondsToSelector:@selector(openLeftDrawer)]) {
+            [self.navigationController.tabBarController performSelector:@selector(openLeftDrawer)];
+        }
+    }
+}
+-(void)rightIconBtnClicked{
+    if (self.navigationController && self.navigationController.tabBarController) {
+        if ([self.navigationController.tabBarController respondsToSelector:@selector(openRightDrawer)]) {
+            [self.navigationController.tabBarController performSelector:@selector(openRightDrawer)];
+        }
+    }
+}
+-(void)setCustomTitle:(NSString *)title TitleFont:(CGFloat)fontSize TitleColor:(UIColor *)color{
+    UILabel * lable = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 50)];
+    lable.text = title;
+    lable.font = [UIFont systemFontOfSize:fontSize];
+    lable.textColor = color;
+    lable.textAlignment = NSTextAlignmentCenter;
+    self.navigationItem.titleView = lable;
+}
+-(void)setCustomLRImage:(UIImage *)image ImageSize:(CGSize)size WithLeftRight:(LRType)type{
+    
+}
+-(void)setCustomLRTitle:(NSString *)title TitleFone:(CGFloat)fontSize TitleColor:(UIColor *)color withLeftRight:(LRType)type{
     
 }
 - (void)didReceiveMemoryWarning {

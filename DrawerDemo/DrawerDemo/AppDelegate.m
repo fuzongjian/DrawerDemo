@@ -8,6 +8,11 @@
 
 #import "AppDelegate.h"
 
+#import "DrawerViewController.h"
+#import "HomeTabBarViewController.h"
+#import "LeftViewController.h"
+#import "RightViewController.h"
+
 @interface AppDelegate ()
 
 @end
@@ -17,6 +22,15 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
+    //设置根视图
+    DrawerViewController * drawer = [[DrawerViewController alloc] initWithRootViewController:[[HomeTabBarViewController alloc]init] LeftViewController:[[LeftViewController alloc] init] RightViewController:[[RightViewController alloc]init]];
+    drawer.leftDrawerWidth = 200;
+    drawer.scale = 0.8;
+    [drawer setBackgroundImage:[UIImage imageNamed:@"1-1"]];
+    self.window.rootViewController = drawer;
     return YES;
 }
 
