@@ -2,7 +2,6 @@
 抽屉的简单实用及其原理
 20160310 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-// Override point for customization after application launch.
 self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 self.window.backgroundColor = [UIColor whiteColor];
 [self.window makeKeyAndVisible];
