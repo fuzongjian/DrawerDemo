@@ -25,6 +25,8 @@
 }
 -(void)configTabBarViewControllerUI{
     
+    self.drawer.delegate = self;
+    
     FirstViewController * firstView = [[FirstViewController alloc] init];
     SuperNavigationController * first = [[SuperNavigationController alloc] initWithRootViewController:firstView];
     first.tabBarItem = [self createName:@"first" withImage:@"available" withSelectImg:@"available-hl"];
@@ -38,6 +40,8 @@
     third.tabBarItem = [self createName:@"third" withImage:@"going" withSelectImg:@"going-hl"];
     self.viewControllers = @[first,second,third];
     self.tabBar.tintColor = [UIColor redColor];
+    
+    
 }
 -(UITabBarItem *)createName:(NSString *)name withImage:(NSString *)iName withSelectImg:(NSString *)sename{
     
@@ -55,8 +59,9 @@
 -(BOOL)drawerIsOpen{
     return self.drawer.isOpen;
 }
-
-
+-(void)Drawer:(DrawerViewController *)drawer RightViewWilldOpen:(UIViewController *)rightViewController{
+    NSLog(@"asdfajksdfa");
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

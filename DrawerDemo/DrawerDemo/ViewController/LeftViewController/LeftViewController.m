@@ -13,10 +13,10 @@
 @end
 
 @implementation LeftViewController
-
+@synthesize drawer;
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    self.drawer.delegate = self;
     // Do any additional setup after loading the view.
 }
 
@@ -24,7 +24,12 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self.drawer closeDrawerWithLeftAndRight];
+}
+-(void)Drawer:(DrawerViewController *)drawer LeftViewWilldOpen:(UIViewController *)leftViewController{
+    NSLog(@"fuzongjian");
+}
 /*
 #pragma mark - Navigation
 

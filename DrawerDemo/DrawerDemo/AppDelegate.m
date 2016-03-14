@@ -15,7 +15,7 @@
 
 #import "HomeViewController.h"
 
-@interface AppDelegate ()
+@interface AppDelegate ()<DrawerViewDelegate>
 
 @end
 
@@ -27,19 +27,26 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
-//    //设置根视图
-//    DrawerViewController * drawer = [[DrawerViewController alloc] initWithRootViewController:[[HomeTabBarViewController alloc]init] LeftViewController:[[LeftViewController alloc] init] RightViewController:[[RightViewController alloc]init]];
-//    [drawer setBackgroundImage:[UIImage imageNamed:@"1-1"]];
-//    self.window.rootViewController = drawer;
     
-    UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:[[HomeViewController alloc] init]];
-    DrawerViewController * drawer = [[DrawerViewController alloc] initWithRootViewController: nav];
+    
+  
+    
+    //设置根视图
+    DrawerViewController * drawer = [[DrawerViewController alloc] initWithRootViewController:[[HomeTabBarViewController alloc]init] LeftViewController:[[LeftViewController alloc] init] RightViewController:[[RightViewController alloc]init]];
+    [drawer setBackgroundImage:[UIImage imageNamed:@"1-1"]];
+    drawer.delegate = self;
+    drawer.animationDuration = 0;
+    drawer.leftDrawerWidth = 100;
+    self.window.rootViewController = drawer;
+    
+//    UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:[[HomeViewController alloc] init]];
+////    DrawerViewController * drawer = [[DrawerViewController alloc] initWithRootViewController: nav];
+//    DrawerViewController * drawer = [[DrawerViewController alloc] initWithRootViewController:nav LeftViewController:[[LeftViewController alloc] init] RightViewController:nil];
     self.window.rootViewController = drawer;
     
     
     return YES;
 }
-
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

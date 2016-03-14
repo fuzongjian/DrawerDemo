@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface LeftViewController : UIViewController
+#import "DrawerViewController.h"
+@interface LeftViewController : UIViewController<DrawerChildViewController,DrawerViewDelegate>
 
 @end

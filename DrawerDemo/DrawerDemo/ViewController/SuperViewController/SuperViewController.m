@@ -13,7 +13,7 @@
 @end
 
 @implementation SuperViewController
-
+@synthesize drawer;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configSuperViewControllerUI];
@@ -40,11 +40,6 @@
     if (self.navigationController && self.navigationController.tabBarController) {
         if ([self.navigationController.tabBarController respondsToSelector:@selector(openLeftDrawer)]) {
             [self.navigationController.tabBarController performSelector:@selector(openLeftDrawer)];
-        }
-    }else if (self.navigationController && [self.navigationController.viewControllers firstObject]){
-        if ([[self.navigationController.viewControllers firstObject] respondsToSelector:@selector(openLeftDrawer)]) {
-            NSLog(@"sdfhasdf");
-            [[self.navigationController.viewControllers firstObject] performSelector:@selector(openLeftDrawer)];
         }
     }
 }

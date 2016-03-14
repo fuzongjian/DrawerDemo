@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface RightViewController : UIViewController
+#import "DrawerViewController.h"
+@interface RightViewController : UIViewController<DrawerChildViewController>
 
 @end

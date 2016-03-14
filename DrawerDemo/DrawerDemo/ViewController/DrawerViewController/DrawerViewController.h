@@ -7,12 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+@protocol DrawerViewDelegate;
 @interface DrawerViewController : UIViewController
 {
     @private
     //主界面根视图
     UIViewController *_rootViewController;
 }
+//抽屉代理
+@property(nonatomic,weak,readwrite)id <DrawerViewDelegate> delegate;
 //设置left控制器
 @property(nonatomic,strong)UIViewController * leftViewController;
 //设置right控制器
@@ -23,9 +26,10 @@
 @property(nonatomic,assign)CGFloat rightDrawerWidth;
 //抽屉是否打开
 @property(nonatomic,assign)BOOL isOpen;
-//缩放比例,不设置的话默认是不缩放（0-1）
+//抽屉打开时的缩放比例,不设置的话默认是不缩放（0-1）
 @property(nonatomic,assign)float scale;
-
+//设置动画执行时间,默认为0.5秒
+@property(nonatomic,assign)CGFloat animationDuration;
 
 /****************************************  初始化视图的方法  ********************************************/
 //初始化left、right、middle的视图控制器
@@ -52,17 +56,14 @@
 @end
 /*******************************************************************************************/
 /****************************************抽屉协议（实现该协议便能拥有抽屉）********************************************/
-//抽屉自控制器的协议 要在自控制器实现synthesize
+//抽屉子控制器的协议 要在自控制器实现synthesize
 @protocol DrawerChildViewController <NSObject>
 @required
 @property(nonatomic,weak) DrawerViewController * drawer;
 @end
 
-
 @protocol DrawerViewDelegate <NSObject>
-@property(nonatomic,assign)id <DrawerViewDelegate> delegate;
 @optional
-
 //抽屉即将打开、已经打开
 -(void)Drawer:(DrawerViewController *)drawer RightViewWilldOpen:(UIViewController *)rightViewController;
 -(void)Drawer:(DrawerViewController *)drawer RightViewDidOpen:(UIViewController *)rightViewController;
@@ -73,6 +74,5 @@
 -(void)Drawer:(DrawerViewController *)drawer LeftViewDidOpen:(UIViewController *)leftViewController;
 -(void)Drawer:(DrawerViewController *)drawer LeftViewWillClose:(UIViewController *)leftViewController;
 -(void)Drawer:(DrawerViewController *)drawer LeftViewDidClose:(UIViewController *)leftViewController;
-
 @end
 /********************************************************************************************/

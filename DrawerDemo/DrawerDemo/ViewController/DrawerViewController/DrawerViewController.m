@@ -8,32 +8,21 @@
 
 #import "DrawerViewController.h"
 /**
- *  抽屉打开和关闭动画持续时间
- */
-#define ANIMATION_DURATION 0.5
-/**
- *  抽屉打开时主视图的缩放比例
- */
-#define OPEN_SCALE 0.8
-/**
- *  left抽屉打开时主视图 X的值
- */
-#define LEFT_OPEN_X self.rootViewController.view.center.x+self.leftDrawerWidth - self.rootViewController.view.bounds.size.width*(1-OPEN_SCALE)/2
-/**
- *  right抽屉打开是主视图 X的值
- */
-#define RIGHT_OPEN_X self.rootViewController.view.center.x-self.rightDrawerWidth + self.rootViewController.view.bounds.size.width*(1-OPEN_SCALE)/2
-/**
  *  抽屉打开时主视图 Y的值
  */
 #define MIDDLE_CENTER_Y self.rootViewController.view.center.y
+/**
+ *  抽屉打开的状态记录
+ */
 typedef enum{
     LEFT_OPEN,
-    RIGHT_OPEN
+    RIGHT_OPEN,
+    DRAWER_CLOSE
 }DrawerOpenType;
 @interface DrawerViewController ()
 @property(nonatomic,strong)UIViewController * rootViewController;
 @property(nonatomic,strong)UIImageView * bgView;
+@property(nonatomic,assign)DrawerOpenType OPEN_TYPE;
 @end
 
 @implementation DrawerViewController
@@ -108,40 +97,131 @@ typedef enum{
 #pragma mark ---
 #pragma mark ---打开左边抽屉
 -(void)openDrawerWithLeft{
+    //左边抽屉打开时要执行的动作
+    __typeof (self) __weak weakSelf = self;
+    void (^startAnimationBlock)(void) = ^{
+        __typeof (weakSelf) __strong strongSelf = weakSelf;
+        if (!strongSelf)return ;
+        strongSelf.rootViewController.view.center = CGPointMake([self set_LEFT_OPEN_X], MIDDLE_CENTER_Y);
+        strongSelf.rootViewController.view.transform = CGAffineTransformMakeScale([self setDrawerScale], [self setDrawerScale]);
+        strongSelf.leftViewController.view.frame = CGRectMake(0, 0, self.leftViewController.view.bounds.size.width, self.leftViewController.view.bounds.size.height);
+        if ([strongSelf.delegate conformsToProtocol:@protocol(DrawerViewDelegate)] && [strongSelf.delegate respondsToSelector:@selector(Drawer:LeftViewWilldOpen:)]) {
+            [strongSelf.delegate Drawer:strongSelf LeftViewWilldOpen:strongSelf.leftViewController];
+        }
+    };
+    //动画执行完成后将信息传递给代理
+    void(^completionAnimationBlock)(void) = ^{
+        __typeof (weakSelf) __strong strongSelf = weakSelf;
+        if (!strongSelf)return ;
+        if ([strongSelf.delegate conformsToProtocol:@protocol(DrawerViewDelegate)] && [strongSelf.delegate respondsToSelector:@selector(Drawer:LeftViewDidOpen:)]) {
+            [strongSelf.delegate Drawer:strongSelf LeftViewDidOpen:strongSelf.leftViewController];
+        }
+        self.OPEN_TYPE = LEFT_OPEN;
+        self.isOpen = !self.isOpen;
+    };
+    
     if (self.isOpen) {
         [self closeDrawerWithLeftAndRight];
     }else{
-        [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-            self.rootViewController.view.center = CGPointMake(LEFT_OPEN_X, MIDDLE_CENTER_Y);
-            self.rootViewController.view.transform = CGAffineTransformMakeScale([self setDrawerScale], [self setDrawerScale]);
-            self.leftViewController.view.frame = CGRectMake(0, 0, self.leftViewController.view.bounds.size.width, self.leftViewController.view.bounds.size.height);
+        [UIView animateWithDuration:[self setCustomAnimationDuration] animations:^{
+            startAnimationBlock();
+        } completion:^(BOOL finished) {
+            completionAnimationBlock();
         }];
     }
-    self.isOpen = !self.isOpen;
 }
 #pragma mark ---
 #pragma mark ---打开右边抽屉
 -(void)openDrawerWithRight{
+    //右边抽屉打开时要执行的动作
+    __typeof (self) __weak weakSelf = self;
+    void (^startAnimationBlock)(void) = ^{
+        __typeof (weakSelf) __strong strongSelf = weakSelf;
+        if (!strongSelf)return ;
+        strongSelf.rootViewController.view.center = CGPointMake([self set_RIGHT_OPEN_X], MIDDLE_CENTER_Y);
+        strongSelf.rootViewController.view.transform = CGAffineTransformMakeScale([strongSelf setDrawerScale], [strongSelf setDrawerScale]);
+        strongSelf.rightViewController.view.frame = CGRectMake(strongSelf.view.bounds.size.width - strongSelf.rightDrawerWidth, 0, strongSelf.rightViewController.view.bounds.size.width, strongSelf.rightViewController.view.bounds.size.height);
+        if ([strongSelf.delegate conformsToProtocol:@protocol(DrawerViewDelegate)] && [strongSelf.delegate respondsToSelector:@selector(Drawer:RightViewWilldOpen:)]) {
+            [strongSelf.delegate Drawer:strongSelf RightViewWilldOpen:strongSelf.rightViewController];
+        }
+    };
+    //动画执行完成后将信息传递给代理
+    void(^completionAnimationBlock)(void) = ^{
+        __typeof (weakSelf) __strong strongSelf = weakSelf;
+        if(!strongSelf)return ;
+        if ([strongSelf.delegate conformsToProtocol:@protocol(DrawerViewDelegate)] && [strongSelf.delegate respondsToSelector:@selector(Drawer:RightViewDidOpen:)]) {
+            [strongSelf.delegate Drawer:strongSelf RightViewDidOpen:strongSelf.rightViewController];
+        }
+        self.OPEN_TYPE = RIGHT_OPEN;
+        self.isOpen = !self.isOpen;
+    };
+    
+    
     if (self.isOpen) {
         [self closeDrawerWithLeftAndRight];
     }else{
-        [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-            self.rootViewController.view.center = CGPointMake(RIGHT_OPEN_X, MIDDLE_CENTER_Y);
-            self.rootViewController.view.transform = CGAffineTransformMakeScale([self setDrawerScale], [self setDrawerScale]);
-            self.rightViewController.view.frame = CGRectMake(self.view.bounds.size.width - self.rightDrawerWidth, 0, self.rightViewController.view.bounds.size.width, self.rightViewController.view.bounds.size.height);
+        [UIView animateWithDuration:[self setCustomAnimationDuration] animations:^{
+            startAnimationBlock();
+        } completion:^(BOOL finished) {
+            completionAnimationBlock();
         }];
     }
-    self.isOpen = !self.isOpen;
+    
 }
 #pragma mark ---
 #pragma mark ---关闭抽屉
 -(void)closeDrawerWithLeftAndRight{
-    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-        self.rootViewController.view.transform = CGAffineTransformMakeScale(1, 1);
-        self.rootViewController.view.center = self.view.center;
-        self.leftViewController.view.frame = CGRectMake(- self.leftViewController.view.bounds.size.width, 0, self.leftViewController.view.bounds.size.width, self.leftViewController.view.bounds.size.height);
-        self.rightViewController.view.frame = CGRectMake(self.view.bounds.size.width, 0, self.rightViewController.view.bounds.size.width, self.rightViewController.view.bounds.size.height);
+    __typeof (self) __weak weakSelf = self;
+    //关闭抽屉时执行的动作
+    void (^startAnimationBlock)(void) = ^{
+        __typeof (weakSelf) __strong strongSelf = weakSelf;
+        if (!strongSelf)return ;
+        strongSelf.rootViewController.view.transform = CGAffineTransformMakeScale(1, 1);
+        strongSelf.rootViewController.view.center = strongSelf.view.center;
+        switch (weakSelf.OPEN_TYPE) {
+            case RIGHT_OPEN:
+                strongSelf.rightViewController.view.frame = CGRectMake(strongSelf.view.bounds.size.width, 0, strongSelf.rightViewController.view.bounds.size.width, strongSelf.rightViewController.view.bounds.size.height);
+                if ([strongSelf.delegate conformsToProtocol:@protocol(DrawerViewDelegate)] && [strongSelf.delegate respondsToSelector:@selector(Drawer:RightViewWillClose:)]) {
+                    [strongSelf.delegate Drawer:strongSelf RightViewWillClose:strongSelf.rightViewController];
+                }
+                break;
+            case LEFT_OPEN:
+                strongSelf.leftViewController.view.frame = CGRectMake(- strongSelf.leftViewController.view.bounds.size.width, 0, strongSelf.leftViewController.view.bounds.size.width, strongSelf.leftViewController.view.bounds.size.height);
+                if ([strongSelf.delegate conformsToProtocol:@protocol(DrawerViewDelegate)] && [strongSelf.delegate respondsToSelector:@selector(Drawer:LeftViewWillClose:)]) {
+                    [strongSelf.delegate Drawer:strongSelf LeftViewWillClose:strongSelf.leftViewController];
+                }
+                break;
+            default:
+                break;
+        }
+    };
+    //动作执行完成后将信息传递给代理
+    void(^completionAnimationBlock)(void) =^{
+        __typeof (weakSelf) __strong strongSelf = weakSelf;
+        if (!strongSelf)return ;
+        switch (strongSelf.OPEN_TYPE) {
+            case LEFT_OPEN:
+                if ([strongSelf.delegate conformsToProtocol:@protocol(DrawerViewDelegate)] && [strongSelf.delegate respondsToSelector:@selector(Drawer:LeftViewDidClose:)]) {
+                    [strongSelf.delegate Drawer:strongSelf RightViewDidClose:strongSelf.leftViewController];
+                }
+                break;
+            case RIGHT_OPEN:
+                if ([strongSelf.delegate conformsToProtocol:@protocol(DrawerViewDelegate)] && [strongSelf.delegate respondsToSelector:@selector(Drawer:RightViewDidClose:)]) {
+                    [strongSelf.delegate Drawer:strongSelf RightViewDidClose:strongSelf.rightViewController];
+                }
+                break;
+            default:
+                break;
+        }
+        strongSelf.OPEN_TYPE = DRAWER_CLOSE;
+        
+    };
+    [UIView animateWithDuration:[self setCustomAnimationDuration] animations:^{
+        startAnimationBlock();
+    } completion:^(BOOL finished) {
+        completionAnimationBlock();
     }];
+    self.isOpen = NO;
 }
 #pragma mark ---
 #pragma mark ---获取抽屉打开的状态
@@ -172,6 +252,25 @@ typedef enum{
     if ((int)self.rightDrawerWidth == 0) {
         self.rightDrawerWidth = 150;
     }
+}
+#pragma mark ---
+#pragma mark ---动画执行的时间
+-(CGFloat)setCustomAnimationDuration{
+    if (self.animationDuration == 0) {
+        return 0.5;
+    }else{
+        return self.animationDuration;
+    }
+}
+#pragma mark ---
+#pragma mark ---left抽屉打开时主视图 X的值
+-(CGFloat)set_LEFT_OPEN_X{
+    return self.rootViewController.view.center.x+self.leftDrawerWidth - self.rootViewController.view.bounds.size.width*(1-[self setDrawerScale])/2;
+}
+#pragma mark ---
+#pragma mark ---right抽屉打开是主视图 X的值
+-(CGFloat)set_RIGHT_OPEN_X{
+    return self.rootViewController.view.center.x-self.rightDrawerWidth + self.rootViewController.view.bounds.size.width*(1-[self setDrawerScale])/2;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
